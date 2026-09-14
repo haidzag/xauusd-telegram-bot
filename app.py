@@ -52,7 +52,14 @@ def webhook():
         "status": "sent",
         "telegram": result
     })
+@app.route("/test-telegram", methods=["GET"])
+def test_telegram():
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        return jsonify({"error": "Telegram credentials are not configured"}), 500
 
+    result = send_telegram("✅ XAUUSD Telegram Bot test message")
+
+    return jsonify(result)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
